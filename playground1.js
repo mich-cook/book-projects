@@ -15,6 +15,23 @@ const Description = createReactClass({
 });
 // list of all propTypes also in Object.keys(PropTypes)
 
+// rudimentary stateful component also using createReactClass (separate deprecated JS script)
+// and proptypes
+const Colors = createReactClass({
+  "propTypes": { "hex": PropTypes.string.isRequired },
+  "getDefaultProps": function() { return { "hex": "#ff00ff" }; },
+  "getInitialState": function() { return { "hex": this.props.hex }},
+  "handleHexChange": function(e) { this.setState({ "hex": e.target.value }); },
+  "render": function() {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement("input", { "value": this.state.hex, "onChange": this.handleHexChange, "style": { "display": "inline-block" }}),
+      React.createElement("div", { "style": { "height": "20px", "width": "20px", "display": "inline-block", "backgroundColor": this.state.hex }})
+    );
+  }
+});
+
 ReactDOM.render(
   // React.DOM.h1() in the book appears to be dead
   React.createElement(
@@ -23,7 +40,8 @@ ReactDOM.render(
     `The Heading`,
     React.createElement("h1", null, `Should contain an h1`),
     React.createElement(Subtitle, { "name": "Boberick" }),
-    React.createElement(Description) // , { "color": "lime green" })
+    React.createElement(Description, { "color": "lime green" }),
+    React.createElement(Colors, { "hex": "#ae5463" })
   ),
   document.getElementById("react-app")
 );
