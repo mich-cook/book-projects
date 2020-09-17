@@ -18,9 +18,9 @@ const Description = createReactClass({
 // rudimentary stateful component also using createReactClass (separate deprecated JS script)
 // and proptypes
 const Colors = createReactClass({
-  "propTypes": { "hex": PropTypes.string.isRequired },
+  "propTypes": { "initialHex": PropTypes.string.isRequired },
   "getDefaultProps": function() { return { "hex": "#ff00ff" }; },
-  "getInitialState": function() { return { "hex": this.props.hex }},
+  "getInitialState": function() { return { "hex": this.props.initialHex }},
   "handleHexChange": function(e) { this.setState({ "hex": e.target.value }); },
   "render": function() {
     return React.createElement(
@@ -41,7 +41,7 @@ ReactDOM.render(
     React.createElement("h1", null, `Should contain an h1`),
     React.createElement(Subtitle, { "name": "Boberick" }),
     React.createElement(Description, { "color": "lime green" }),
-    React.createElement(Colors, { "hex": "#ae5463" })
+    React.createElement(Colors, { "initialHex": "#ae5463" })
   ),
   document.getElementById("react-app")
 );
