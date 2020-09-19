@@ -1,5 +1,10 @@
 // NOTE: React.createClass() no longer exists
 // NOTE: React.createFactory() is considered legacy and disuse is recommended
+// NOTE: componentWillReceiveProps() is also gone:
+//   https://fb.me/react-derived-state
+//   https://fb.me/react-unsafe-component-lifecycles
+
+
 const Subtitle = React.memo(props =>
   React.createElement("h2", null, `And could have a subheading, ${props.name}`)
 );
@@ -22,6 +27,11 @@ const Colors = createReactClass({
   "getDefaultProps": function() { return { "hex": "#ff00ff" }; },
   "getInitialState": function() { return { "hex": this.props.initialHex }},
   "handleHexChange": function(e) { this.setState({ "hex": e.target.value }); },
+  "componentDidMount": function() { console.log('componentDidMount: ', arguments); },
+  "componentDidUpdate": function() { console.log('componentDidUpdate: ', arguments); },
+  "componentWillUnmount": function() { console.log('componentWillUnmount: ', arguments); },
+  // componentWillMount and componentWillUpdate are deprecated.
+  // "shouldComponetUpdate": function() { /* don't update */  return false; },
   "render": function() {
     return React.createElement(
       "div",
