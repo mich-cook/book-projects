@@ -28,7 +28,10 @@ const Colors = createReactClass({
   "getInitialState": function() { return { "hex": this.props.initialHex }},
   "handleHexChange": function(e) { this.setState({ "hex": e.target.value }); },
   "componentDidMount": function() { console.log('componentDidMount: ', arguments); },
-  "componentDidUpdate": function() { console.log('componentDidUpdate: ', arguments); },
+  "componentDidUpdate": function(prevProps, prevState) {
+    console.log('componentDidUpdate: ', arguments);
+    if (this.state.hex.length > 7) this.replaceState(prevState);  // hex should only be 6 chars with # prepend
+  },
   "componentWillUnmount": function() { console.log('componentWillUnmount: ', arguments); },
   // componentWillMount and componentWillUpdate are deprecated.
   // "shouldComponetUpdate": function() { /* don't update */  return false; },
