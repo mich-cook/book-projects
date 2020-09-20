@@ -4,6 +4,20 @@
 //   https://fb.me/react-derived-state
 //   https://fb.me/react-unsafe-component-lifecycles
 
+const logMixin = {
+  "_log": function(name, args) {
+    console.log(`${this.name} component ${name}: `, args);
+  },
+  "componentDidMount": function() {
+    this._log(`componentDidMount`, arguments);
+  },
+  "componentDidUpdate": function() {
+    this._log(`componentDidUpdate`, arguments);
+  },
+  "componentWillUmount": function() {
+    this._log(`componentWillUnmount`, arguments);
+  }
+};
 
 const Subtitle = React.memo(props =>
   React.createElement("h2", null, `And could have a subheading, ${props.name}`)
@@ -23,16 +37,17 @@ const Description = createReactClass({
 // rudimentary stateful component also using createReactClass (separate deprecated JS script)
 // and proptypes
 const Colors = createReactClass({
+  "name": "Colors",
+  "mixins": [logMixin],
   "propTypes": { "initialHex": PropTypes.string.isRequired },
   "getDefaultProps": function() { return { "hex": "#ff00ff" }; },
   "getInitialState": function() { return { "hex": this.props.initialHex }},
   "handleHexChange": function(e) { this.setState({ "hex": e.target.value }); },
-  "componentDidMount": function() { console.log('componentDidMount: ', arguments); },
+  //"componentDidMount": function() {},
   "componentDidUpdate": function(prevProps, prevState) {
-    console.log('componentDidUpdate: ', arguments);
     if (this.state.hex.length > 7) this.replaceState(prevState);  // hex should only be 6 chars with # prepend
   },
-  "componentWillUnmount": function() { console.log('componentWillUnmount: ', arguments); },
+  // "componentWillUnmount": function() {},
   // componentWillMount and componentWillUpdate are deprecated.
   // "shouldComponetUpdate": function() { /* don't update */  return false; },
   "render": function() {
