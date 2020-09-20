@@ -34,6 +34,16 @@ const Description = createReactClass({
 });
 // list of all propTypes also in Object.keys(PropTypes)
 
+const Colorpreview = createReactClass({
+  "name": "Color Preview",
+  "mixins": [ logMixin ],
+  "propTypes": { "hex": PropTypes.string.isRequired },
+  "getDefaultProps": function() { return { "hex": "#ffffff"}; },
+  "render": function() {
+    return  React.createElement("div", { "style": { "height": "20px", "width": "20px", "display": "inline-block", "backgroundColor": this.props.hex }})
+  }
+});
+
 // rudimentary stateful component also using createReactClass (separate deprecated JS script)
 // and proptypes
 const Colors = createReactClass({
@@ -55,7 +65,7 @@ const Colors = createReactClass({
       "div",
       null,
       React.createElement("input", { "value": this.state.hex, "onChange": this.handleHexChange, "style": { "display": "inline-block" }}),
-      React.createElement("div", { "style": { "height": "20px", "width": "20px", "display": "inline-block", "backgroundColor": this.state.hex }})
+      React.createElement(Colorpreview, { "hex": this.state.hex })
     );
   }
 });
