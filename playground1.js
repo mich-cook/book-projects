@@ -39,6 +39,7 @@ const Colorpreview = createReactClass({
   "mixins": [ logMixin ],
   "propTypes": { "hex": PropTypes.string.isRequired },
   "getDefaultProps": function() { return { "hex": "#ffffff"}; },
+  "shouldComponentUpdate": function(newProps, newState) { return newProps.hex !== this.props.hex; },
   "render": function() {
     return  React.createElement("div", { "style": { "height": "20px", "width": "20px", "display": "inline-block", "backgroundColor": this.props.hex }})
   }
