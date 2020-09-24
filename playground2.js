@@ -33,11 +33,11 @@ const Table = createReactClass({
         ),
         React.createElement("tbody", null, this.state.data.map(function(row, i) {
           return (
-            React.createElement("tr", null, [
+            React.createElement("tr", { "key": i },
               React.createElement("td", null, row.mission),
               React.createElement("td", null, row.shuttle),
               React.createElement("td", null, row.date)
-            ])
+            )
           );
         }))
       )
