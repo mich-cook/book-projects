@@ -29,16 +29,39 @@ const Table = createReactClass({
   },
 
   "getInitialState": function() {
-    return { "data": this.props.initialData };
+    return {
+      "data": this.props.initialData,
+      "sortBy": null,
+      "descending": false
+    };
+  },
+
+  "sort": function(e) {
+    const column = e.target.dataset.column;
+    const desc = (this.state.sortBy === column) ? !this.state.descending : false;
+    let missions = Array.from(this.state.data);
+    missions.sort(function(a,b) {
+      if (desc === false) {
+        return (a[column] > b[column]) ? 1 : -1;
+      } else {
+        return (a[column] < b[column]) ? 1 : -1;
+      }
+    });
+    this.setState({ "data": missions, "descending": desc, "sortBy": column });
   },
 
   "render": function() {
     return (
       React.createElement("table", null,
-        React.createElement("thead", null,
+        React.createElement("thead", { "onClick": this.sort },
           React.createElement("tr", null, this.props.headers.map(function(heading, i) {
-            return React.createElement("th", { "key": i }, heading);
-          }))
+            let sortDir = '\u2195';  // updown by default
+            if (heading === this.state.sortBy) {
+              if (this.state.descending === false) { sortDir = "\u2193"; }
+              else { sortDir = "\u2191"; }
+            }
+            return React.createElement("th", { "key": i, "data-column": heading }, heading + sortDir);
+          }, this))
         ),
         React.createElement("tbody", null, this.state.data.map(function(row, i) {
           return (
