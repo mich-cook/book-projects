@@ -19,6 +19,15 @@ const data = [
 
 const Table = createReactClass({
 
+  "propTypes": {
+    "headers": PropTypes.arrayOf(PropTypes.string),
+    "initialData": PropTypes.arrayOf(PropTypes.shape({
+      "mission": PropTypes.string.isRequired,
+      "shuttle": PropTypes.string.isRequired,
+      "date": PropTypes.string.isRequired
+    }))
+  },
+
   "getInitialState": function() {
     return { "data": this.props.initialData };
   },
