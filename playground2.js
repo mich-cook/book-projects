@@ -19,7 +19,22 @@ const data = [
 
 const Table = createReactClass({
 
+  "componentDidMount": function() {
+    document.onkeydown = function(e) {
+      if (e.altKey && e.shiftKey && e.keyCode === 82) {
+        this.replay();
+      }
+    }.bind(this);
+  },
+
+  // TODO: need bypass for replay to avoid constantly growing state log
+  "componentDidUpdate": function(props, state) {
+//    const item = (this.actionLog.length === 0) ? this.state : state;
+//    this.actionLog.push(JSON.parse(JSON.stringify(item)));
+  },
+
   "originalData": null,
+  "actionLog": [],
 
   "propTypes": {
     "headers": PropTypes.arrayOf(PropTypes.string),
@@ -38,6 +53,30 @@ const Table = createReactClass({
       "editMarker": null,
       "searchDisplayed": false
     };
+  },
+
+  // TODO: look at this for undo/redo
+  // TODO: hook this into componentDidUpdate, but bypass
+  //   adding to the state on replay (which uses setState())
+  "logThenSetState": function(state) {
+    const item = (this.actionLog.length === 0) ? this.state : state;
+    this.actionLog.push(JSON.parse(JSON.stringify(item)));
+    this.setState(state);
+  },
+
+  "replay": function() {
+    if (this.actionLog.length === 0) {
+      console.warn(`Trying to replay an empty action log.`);
+      return;
+    }
+    let i = -1;
+    const interval = setInterval(function() {
+      i += 1;
+      if (i === this.actionLog.length - 1) {
+        clearInterval(interval);
+      }
+      this.setState(this.actionLog[i]);
+    }.bind(this), 1000);
   },
 
   "sort": function(e) {
