@@ -19,6 +19,8 @@ const data = [
 
 const Table = createReactClass({
 
+  "originalData": null,
+
   "propTypes": {
     "headers": PropTypes.arrayOf(PropTypes.string),
     "initialData": PropTypes.arrayOf(PropTypes.shape({
@@ -33,7 +35,8 @@ const Table = createReactClass({
       "data": this.props.initialData,
       "sortBy": null,
       "descending": false,
-      "editMarker": null
+      "editMarker": null,
+      "searchDisplayed": false
     };
   },
 
@@ -70,8 +73,53 @@ const Table = createReactClass({
     this.setState({ "data": data, "editMarker": null });
   },
 
+  // TODO: handle multicolumn search
+  "filterData": function(e) {
+    const needle = e.target.value.toLowerCase();
+    if (needle.length === 0) {
+      this.setState({ "data": this.originalData });
+      return;
+    }
+
+    const key = e.target.dataset["index"];
+
+    const results = this.originalData.filter(function(mission) {
+      return mission[key].toString().toLowerCase().includes(needle);
+    });
+
+    this.setState({ "data": results });
+  },
+
+  "showSearch": function() {
+    if (this.state.searchDisplayed === false) {
+      return null;
+    }
+
+    return (
+      React.createElement("tr", { "onChange": this.filterData }, this.props.headers.map(function(heading, i) {
+        return React.createElement("td", { "key": i },
+          React.createElement("input", { "type": "text", "data-index": heading })
+        );
+      }))
+    );
+  },
+
+  "toggleSearch": function() {
+    if (this.state.searchDisplayed === true) {
+      this.setState({ "data": this.originalData, "searchDisplayed": false });
+      this.originalData = null;
+    } else {
+      this.originalData = this.state.data;
+      this.setState({ "searchDisplayed": true });
+    }
+  },
+
   "render": function() {
     return (
+      React.createElement("div", null,
+      React.createElement("div", null,
+        React.createElement("button", { "onClick": this.toggleSearch, "className": "toolbar" }, `Search`)
+      ),
       React.createElement("table", null,
         React.createElement("thead", { "onClick": this.sort },
           React.createElement("tr", null, this.props.headers.map(function(heading, i) {
@@ -83,21 +131,24 @@ const Table = createReactClass({
             return React.createElement("th", { "key": i, "data-column": heading }, heading + sortDir);
           }, this))
         ),
-        React.createElement("tbody", { /* "onDoubleClick": this.editable */ }, this.state.data.map(function(row, i) {
-          if ((this.state.editMarker !== null) && (this.state.editMarker.row === i)) {
-            let editField = React.createElement("form", { "onSubmit": this.updateTable },
-              React.createElement("input", { "type": "text", "defaultValue": row[this.state.editMarker.key], "placeholder": row[this.state.editMarker.key] })
+        React.createElement("tbody", { /* "onDoubleClick": this.editable */ },
+          this.showSearch(),
+          this.state.data.map(function(row, i) {
+            if ((this.state.editMarker !== null) && (this.state.editMarker.row === i)) {
+              let editField = React.createElement("form", { "onSubmit": this.updateTable },
+                React.createElement("input", { "type": "text", "defaultValue": row[this.state.editMarker.key], "placeholder": row[this.state.editMarker.key] })
+              );
+              row[this.state.editMarker.key] = editField;
+            }
+            return (
+              React.createElement("tr", { "key": i },
+                React.createElement("td", null, row.mission),
+                React.createElement("td", null, row.shuttle),
+                React.createElement("td", null, row.date)
+              )
             );
-            row[this.state.editMarker.key] = editField;
-          }
-          return (
-            React.createElement("tr", { "key": i },
-              React.createElement("td", null, row.mission),
-              React.createElement("td", null, row.shuttle),
-              React.createElement("td", null, row.date)
-            )
-          );
-        }, this))
+          }, this))
+      )
       )
     );
   }
