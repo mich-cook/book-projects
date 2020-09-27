@@ -32,7 +32,8 @@ const Table = createReactClass({
     return {
       "data": this.props.initialData,
       "sortBy": null,
-      "descending": false
+      "descending": false,
+      "editMarker": null
     };
   },
 
@@ -50,6 +51,25 @@ const Table = createReactClass({
     this.setState({ "data": missions, "descending": desc, "sortBy": column });
   },
 
+  "editable": function(e) {
+    const row = e.target.closest('tr').rowIndex - 1;
+    const column = e.target.cellIndex;
+    // not using dataset.column at the end to minimize confusion between the key and the var
+    const key = document.querySelectorAll('table tr th')[column].dataset["column"];
+
+    this.setState({ "editMarker": { "row": row, "column": column, "key": key }});
+  },
+
+  "updateTable": function(e) {
+    e.preventDefault();
+
+    let data = Array.from(this.state.data);
+    const newVal = e.target.querySelector('input').value;
+
+    data[this.state.editMarker.row][this.state.editMarker.key] = newVal;
+    this.setState({ "data": data, "editMarker": null });
+  },
+
   "render": function() {
     return (
       React.createElement("table", null,
@@ -63,7 +83,13 @@ const Table = createReactClass({
             return React.createElement("th", { "key": i, "data-column": heading }, heading + sortDir);
           }, this))
         ),
-        React.createElement("tbody", null, this.state.data.map(function(row, i) {
+        React.createElement("tbody", { "onDoubleClick": this.editable }, this.state.data.map(function(row, i) {
+          if ((this.state.editMarker !== null) && (this.state.editMarker.row === i)) {
+            let editField = React.createElement("form", { "onSubmit": this.updateTable },
+              React.createElement("input", { "type": "text", "defaultValue": row[this.state.editMarker.key], "placeholder": row[this.state.editMarker.key] })
+            );
+            row[this.state.editMarker.key] = editField;
+          }
           return (
             React.createElement("tr", { "key": i },
               React.createElement("td", null, row.mission),
@@ -71,7 +97,7 @@ const Table = createReactClass({
               React.createElement("td", null, row.date)
             )
           );
-        }))
+        }, this))
       )
     );
   }
