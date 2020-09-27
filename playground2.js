@@ -83,7 +83,7 @@ const Table = createReactClass({
             return React.createElement("th", { "key": i, "data-column": heading }, heading + sortDir);
           }, this))
         ),
-        React.createElement("tbody", { "onDoubleClick": this.editable }, this.state.data.map(function(row, i) {
+        React.createElement("tbody", { /* "onDoubleClick": this.editable */ }, this.state.data.map(function(row, i) {
           if ((this.state.editMarker !== null) && (this.state.editMarker.row === i)) {
             let editField = React.createElement("form", { "onSubmit": this.updateTable },
               React.createElement("input", { "type": "text", "defaultValue": row[this.state.editMarker.key], "placeholder": row[this.state.editMarker.key] })
