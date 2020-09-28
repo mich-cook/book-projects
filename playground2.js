@@ -153,11 +153,25 @@ const Table = createReactClass({
     }
   },
 
+  "download": function(format, e) {
+    let data = '';
+    if (format === 'json') data = JSON.stringify(this.state.data);
+    if (format === 'csv') {
+      // TODO
+    }
+    const URL = window.URL || window.webkitURL;
+    const blob = new Blob([data], { "type": `text/${format}` });
+    e.target.href = URL.createObjectURL(blob);
+    e.target.download = `data.${format}`;
+  },
+
   "render": function() {
     return (
       React.createElement("div", null,
       React.createElement("div", null,
-        React.createElement("button", { "onClick": this.toggleSearch, "className": "toolbar" }, `Search`)
+        React.createElement("button", { "onClick": this.toggleSearch, "className": "toolbar" }, `Search`),
+        React.createElement("a", { "onClick": this.download.bind(this, 'json'), "className": "toolbar" }, `Export JSON`),
+        React.createElement("a", { "onClick": this.download.bind(this, 'csv'), "className": "toolbar" }, `Export CSV`)
       ),
       React.createElement("table", null,
         React.createElement("thead", { "onClick": this.sort },
