@@ -5,12 +5,18 @@
   "main": "bundle.js",
   "scripts": {
     "babelize": "node_modules/.bin/babel --presets react,env js/source -d js/build",
-    "browserify": "node_modules/.bin/browserify js/build/app.js -o bundle.js",
+    "browserify-app": "node_modules/.bin/browserify js/build/app.js -o bundle.js",
+    "browserify-demo": "node_modules/.bin/browserify js/build/demo.js -o demo-bundle.js",
+    "browserify": "npm run browserify-app && npm run browserify-demo",
     "csscat": "cat css/*/* css/*.css | sed 's/..\\/..\\/images/images/g' > bundle.css",
     "build": "npm run babelize && npm run browserify && npm run csscat",
     "watch": "node_modules/.bin/watch \"npm run build\" js/source css",
-    "uglify": "node_modules/.bin/terser bundle.js --mangle --compress -o bundle.min.js",
-    "cssmin": "node_modules/.bin/minify bundle.css > bundle.min.css",
+    "uglify-app": "node_modules/.bin/terser bundle.js --mangle --compress -o bundle.min.js",
+    "uglify-demo": "node_modules/.bin/terser demo-bundle.js --mangle --compress -o demo-bundle.min.js",
+    "uglify": "npm run uglify-app && npm run uglify-demo",
+    "cssmin-app": "node_modules/.bin/minify bundle.css > bundle.min.css",
+    "cssmin": "npm run cssmin-app",
+    "enchilada": "npm run build && npm run uglify && npm run cssmin" ,
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

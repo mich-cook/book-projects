@@ -2,5 +2,7 @@ bundle.css
 bundle.min.css
 bundle.js
 bundle.min.js
+demo-bundle.js
+demo-bundle.min.js
 node_modules
 js/build/
