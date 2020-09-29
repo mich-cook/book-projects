@@ -1,0 +1,33 @@
+{
+  "name": "playground4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bundle.js",
+  "scripts": {
+    "babelize": "node_modules/.bin/babel --presets react,env js/source -d js/build",
+    "browserify": "node_modules/.bin/browserify js/build/app.js -o bundle.js",
+    "csscat": "cat css/*/* css/*.css | sed 's/..\\/..\\/images/images/g' > bundle.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mich-cook/running-stoyan.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "mich-cook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mich-cook/running-stoyan/issues"
+  },
+  "homepage": "https://github.com/mich-cook/running-stoyan#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "browserify": "^16.5.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
