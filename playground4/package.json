@@ -9,6 +9,8 @@
     "csscat": "cat css/*/* css/*.css | sed 's/..\\/..\\/images/images/g' > bundle.css",
     "build": "npm run babelize && npm run browserify && npm run csscat",
     "watch": "node_modules/.bin/watch \"npm run build\" js/source css",
+    "uglify": "node_modules/.bin/terser bundle.js --mangle --compress -o bundle.min.js",
+    "cssmin": "node_modules/.bin/minify bundle.css > bundle.min.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,6 +31,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "browserify": "^16.5.2",
+    "minify": "^5.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "watch": "^1.0.2"
