@@ -40,8 +40,8 @@ class Rating extends Component {
         <span
           className={ i <= this.state.tmpRating ? 'RatingOn' : null }
           key={i}
-          onClick={!this.props.readonly && this.setRating.bind(this, i)}
-          onMouseOver={!this.props.readonly && this.setTemp.bind(this, i)}>
+          onClick={!this.props.readonly ? this.setRating.bind(this, i) : undefined}
+          onMouseOver={!this.props.readonly ? this.setTemp.bind(this, i) : undefined}>
         &#9734;</span>
       );
     }
