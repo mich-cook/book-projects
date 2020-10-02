@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import Button from './components/Button.js';
 import Suggest from './components/Suggest.js';
 import Rating from './components/Rating.js';
+import FormInput from './components/FormInput.js';
 
 ReactDOM.render(
   <div className="ComponentDemo">
@@ -23,6 +24,14 @@ ReactDOM.render(
     <Rating defaultValue={3} />
     <Rating max={3} />
     <Rating readonly={true} />
+
+    <h2>Form Input</h2>
+    <FormInput />
+    <FormInput defaultValue="this is the default" />
+    <FormInput type="year" />
+    <FormInput type="rating" defaultValue={4} />
+    <FormInput type="suggest" options={[ "worm", "snake", "eel" ]} defaultValue="snake" />
+    <FormInput type="text" />
 
   </div>,
   document.getElementById("demo-app")
