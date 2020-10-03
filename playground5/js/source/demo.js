@@ -7,6 +7,7 @@ import Suggest from './components/Suggest.js';
 import Rating from './components/Rating.js';
 import FormInput from './components/FormInput.js';
 import Form from './components/Form.js';
+import Actions from './components/Actions.js';
 
 const rDCrew = [ "Lister", "Rimmer", "Cat", "Kryten", "Holly" ];
 
@@ -40,6 +41,9 @@ ReactDOM.render(
     <FormInput type="rating" defaultValue={4} />
     <FormInput type="suggest" options={[ "worm", "snake", "eel" ]} defaultValue="snake" />
     <FormInput type="text" />
+
+    <h2>Actions</h2>
+    <div><Actions onAction={type => alert(type)} /></div>
 
   </div>,
   document.getElementById("demo-app")
