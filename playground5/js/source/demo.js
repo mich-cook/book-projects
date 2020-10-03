@@ -8,6 +8,7 @@ import Rating from './components/Rating.js';
 import FormInput from './components/FormInput.js';
 import Form from './components/Form.js';
 import Actions from './components/Actions.js';
+import Dialog from './components/Dialog.js';
 
 const rDCrew = [ "Lister", "Rimmer", "Cat", "Kryten", "Holly" ];
 
@@ -44,6 +45,19 @@ ReactDOM.render(
 
     <h2>Actions</h2>
     <div><Actions onAction={type => alert(type)} /></div>
+
+    <Dialog
+      header="Default Example"
+      onAction={type => alert(type)}>Default dialog</Dialog>
+
+    <Dialog
+      header="Cancel is false inner content"
+      hasCancel={false}
+      confirmLabel="Confirm"
+      onAction={type => alert(type)}>
+        Custom dialog with a button
+        <button>I do nothing</button>
+    </Dialog>
 
   </div>,
   document.getElementById("demo-app")
