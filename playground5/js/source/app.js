@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 
 import Datatable from './components/Datatable.js';
 
+import schema from './schema.js';
+
 const headers = [ "mission", "shuttle", "date" ];
-const data = [
+
+const sampleData = [
 {
   "mission": "1",
   "shuttle": "Challenger",
@@ -22,7 +25,19 @@ const data = [
 }
 ];
 
+let data = JSON.parse(localStorage.getItem('data'));
+
+if (!data) {
+  data = sampleData;
+/*
+  // THEIR SUGGESTION FOR DEFAULT DATA
+  data = {};
+  schema.forEach(item => data[item.id] = item.sample);
+  data = [ data ];
+*/
+}
+
 ReactDOM.render(
-  <Datatable headers={headers} initialData={data} />,
+  <Datatable headers={headers} schema={schema} initialData={data} />,
   document.getElementById("react-app")
 );
