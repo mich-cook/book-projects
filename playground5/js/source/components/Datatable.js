@@ -204,6 +204,47 @@ class Datatable extends React.Component {
     this._fireDataChange(data);
   }
 
+  renderDialog() {
+    if (this.state.dialog === null) {
+      return;
+    }
+
+    switch(this.state.dialog.type) {
+      case 'delete':
+        return this.renderDeleteDialog();
+      case 'info':
+        return this.renderFormDialog(true);
+      case 'edit':
+        return this.renderFormDialog();
+      default:
+        throw Error(`Dialog type undefined: ${this.state.dialog.type}`);
+    }
+
+  }
+
+  renderDeleteDialog() {
+    const first = this.sate.data[this.state.dialog.index];
+    const name = first[Object.keys(first)[0]];
+    return (
+      <Dialog modal={true} header="Confirm deletion"
+              confirmLabel="Delete"
+              onAction={this.deleteConfirmation.bind(this)}>
+        {`Please confirm delete for: ${name}`}
+      </Dialog>
+    );
+  }
+
+  renderFormDialog(readonly) {
+    return (
+      <Dialog modal={true} hasCancel={!readonly} confirmLabel={readonly ? 'ok' : 'Save'}
+              header={readonly ? 'Item info' : 'Edit item'}
+              onAction={this.saveDataDialog.bind(this)}>
+        <Form ref="form" fields={this.props.schema} readonly={readonly}
+              initialData={this.state.data[this.state.dialog.index]} />
+      </Dialog>
+    );
+  }
+
   /**
    *
    * Table edit functionality
@@ -255,6 +296,7 @@ class Datatable extends React.Component {
           }, this)}
           </tbody>
         </table>
+        {this.renderDialog()}
       </div>
     );
   }
