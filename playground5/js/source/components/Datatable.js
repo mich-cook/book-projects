@@ -42,6 +42,10 @@ class Datatable extends React.Component {
   },
 */
 
+  _fireDataChange(data) {
+    this.props.onDataChange(data);
+  }
+
   /**
    *
    * Replay Functionality
@@ -90,6 +94,7 @@ class Datatable extends React.Component {
       }
     });
     this.setState({ "data": missions, "descending": desc, "sortBy": column });
+    this._fireDataChange(missions);
   }
 
   /**
@@ -98,6 +103,7 @@ class Datatable extends React.Component {
    *   (that we're not using)
    *
    **/
+/*
   editable(e) {
     const row = e.target.closest('tr').rowIndex - 1;
     const column = e.target.cellIndex;
@@ -111,12 +117,14 @@ class Datatable extends React.Component {
     e.preventDefault();
 
     let data = Array.from(this.state.data);
+    // SUGGESTED: const newVal = this.refs.input.getValue();
     const newVal = e.target.querySelector('input').value;
 
     data[this.state.editMarker.row][this.state.editMarker.key] = newVal;
     this.setState({ "data": data, "editMarker": null });
+    this._fireDataChange(data);
   }
-
+*/
 
   /**
    *
