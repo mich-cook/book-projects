@@ -263,14 +263,20 @@ class Datatable extends React.Component {
     e.target.download = `data.${format}`;
   }
 
+  renderToolbar() {
+    return (
+      <div>
+        <button onClick={this.toggleFilter.bind(this)} className="toolbar">Search</button>
+        <a onClick={this.download.bind(this, 'json')} className="toolbar">Export JSON</a>
+        <a onClick={this.download.bind(this, 'csv')} className="toolbar">Export CSV</a>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="Datatable">
-        <div>
-          <button onClick={this.toggleFilter.bind(this)} className="toolbar">Search</button>
-          <a onClick={this.download.bind(this, 'json')} className="toolbar">Export JSON</a>
-          <a onClick={this.download.bind(this, 'csv')} className="toolbar">Export CSV</a>
-        </div>
+        {this.renderToolbar()}
         <table>
           <thead onClick={this.sort.bind(this)}>
             <tr>{this.props.headers.map(function(heading, i) {
