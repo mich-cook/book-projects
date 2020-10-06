@@ -173,6 +173,39 @@ class Datatable extends React.Component {
 
   /**
    *
+   * Dialog Stuff
+   *
+   **/
+  deleteConfirmationClick(action) {
+    if (action === 'dismiss') {
+      this.closeDialog();
+      return;
+    }
+
+    let data = Array.from(this.state.data);
+    data.splice(this.state.dialog.index, 1);
+    this.setState({ "dialog": null, "data": data });
+    this._fireDataChange(data);
+  }
+
+  closeDialog() {
+    this.setState({ "dialog": null });
+  }
+
+  saveDataDialog(action) {
+    if (action === 'dismiss') {
+      this.closeDialog();
+      return;
+    }
+
+    let data = Array.from(this.state.data);
+    data[this.state.dialog.index] = this.refs.form.getData();
+    this.setState({ "dialog": null, "data": data });
+    this._fireDataChange(data);
+  }
+
+  /**
+   *
    * Table edit functionality
    *   (that we're not using)
    *
