@@ -1,25 +1,36 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
 
-// class Datatable extends React.Component {
-const Datatable = createReactClass({
+class Datatable extends React.Component {
 
-  "componentDidMount": function() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      "data": this.props.initialData,
+      "sortBy": null,   // schema.id
+      "descending": false,
+      "editMarker": null,  // [row index, schema.id]
+      "searchDisplayed": false,
+      "dialog": null, // [type, index]
+    };
+    this.originalData = null;
+    this.actionLog = [];
+  }
+
+  componentDidMount() {
     document.onkeydown = function(e) {
       if (e.altKey && e.shiftKey && e.keyCode === 82) {
         this.replay();
       }
     }.bind(this);
-  },
+  }
 
   // TODO: need bypass for replay to avoid constantly growing state log
-  "componentDidUpdate": function(props, state) {
+  componentDidUpdate(props, state) {
 //    const item = (this.actionLog.length === 0) ? this.state : state;
 //    this.actionLog.push(JSON.parse(JSON.stringify(item)));
-  },
+  }
 
-  "originalData": null,
-  "actionLog": [],
 /*
   "propTypes": {
     "headers": PropTypes.arrayOf(PropTypes.string),
@@ -30,26 +41,23 @@ const Datatable = createReactClass({
     }))
   },
 */
-  "getInitialState": function() {
-    return {
-      "data": this.props.initialData,
-      "sortBy": null,
-      "descending": false,
-      "editMarker": null,
-      "searchDisplayed": false
-    };
-  },
+
+  /**
+   *
+   * Replay Functionality
+   *
+   **/
 
   // TODO: look at this for undo/redo
   // TODO: hook this into componentDidUpdate, but bypass
   //   adding to the state on replay (which uses setState())
-  "logThenSetState": function(state) {
+  logThenSetState(state) {
     const item = (this.actionLog.length === 0) ? this.state : state;
     this.actionLog.push(JSON.parse(JSON.stringify(item)));
     this.setState(state);
-  },
+  }
 
-  "replay": function() {
+  replay() {
     if (this.actionLog.length === 0) {
       console.warn(`Trying to replay an empty action log.`);
       return;
@@ -62,9 +70,15 @@ const Datatable = createReactClass({
       }
       this.setState(this.actionLog[i]);
     }.bind(this), 1000);
-  },
+  }
 
-  "sort": function(e) {
+  /**
+   *
+   * Sort Functionality
+   *
+   **/
+
+  sort(e) {
     const column = e.target.dataset.column;
     const desc = (this.state.sortBy === column) ? !this.state.descending : false;
     let missions = Array.from(this.state.data);
@@ -76,18 +90,24 @@ const Datatable = createReactClass({
       }
     });
     this.setState({ "data": missions, "descending": desc, "sortBy": column });
-  },
+  }
 
-  "editable": function(e) {
+  /**
+   *
+   * Table edit functionality
+   *   (that we're not using)
+   *
+   **/
+  editable(e) {
     const row = e.target.closest('tr').rowIndex - 1;
     const column = e.target.cellIndex;
     // not using dataset.column at the end to minimize confusion between the key and the var
     const key = document.querySelectorAll('table tr th')[column].dataset["column"];
 
     this.setState({ "editMarker": { "row": row, "column": column, "key": key }});
-  },
+  }
 
-  "updateTable": function(e) {
+  updateTable(e) {
     e.preventDefault();
 
     let data = Array.from(this.state.data);
@@ -95,10 +115,17 @@ const Datatable = createReactClass({
 
     data[this.state.editMarker.row][this.state.editMarker.key] = newVal;
     this.setState({ "data": data, "editMarker": null });
-  },
+  }
 
-  // TODO: handle multicolumn search
-  "filterData": function(e) {
+
+  /**
+   *
+   * Filter Functionality
+   *
+   **/
+
+  // TODO: handle multicolumn filtering
+  filterData(e) {
     const needle = e.target.value.toLowerCase();
     if (needle.length === 0) {
       this.setState({ "data": this.originalData });
@@ -112,21 +139,21 @@ const Datatable = createReactClass({
     });
 
     this.setState({ "data": results });
-  },
+  }
 
-  "showSearch": function() {
+  showFilter() {
     if (this.state.searchDisplayed === false) {
       return null;
     }
 
     return (
-      <tr onChange={this.filterData}>{this.props.headers.map((heading, i) =>
+      <tr onChange={this.filterData.bind(this)}>{this.props.headers.map((heading, i) =>
         <td key={i}><input type="text" data-index={heading}/></td>
       )}</tr>
     );
-  },
+  }
 
-  "toggleSearch": function() {
+  toggleFilter() {
     if (this.state.searchDisplayed === true) {
       this.setState({ "data": this.originalData, "searchDisplayed": false });
       this.originalData = null;
@@ -134,9 +161,15 @@ const Datatable = createReactClass({
       this.originalData = this.state.data;
       this.setState({ "searchDisplayed": true });
     }
-  },
+  }
 
-  "download": function(format, e) {
+  /**
+   *
+   * Table edit functionality
+   *   (that we're not using)
+   *
+   **/
+  download(format, e) {
     let data = '';
     if (format === 'json') data = JSON.stringify(this.state.data);
     if (format === 'csv') {
@@ -146,18 +179,18 @@ const Datatable = createReactClass({
     const blob = new Blob([data], { "type": `text/${format}` });
     e.target.href = URL.createObjectURL(blob);
     e.target.download = `data.${format}`;
-  },
+  }
 
-  "render": function() {
+  render() {
     return (
       <div className="Datatable">
         <div>
-          <button onClick={this.toggleSearch} className="toolbar">Search</button>
+          <button onClick={this.toggleFilter.bind(this)} className="toolbar">Search</button>
           <a onClick={this.download.bind(this, 'json')} className="toolbar">Export JSON</a>
           <a onClick={this.download.bind(this, 'csv')} className="toolbar">Export CSV</a>
         </div>
         <table>
-          <thead onClick={this.sort}>
+          <thead onClick={this.sort.bind(this)}>
             <tr>{this.props.headers.map(function(heading, i) {
             let sortDir = '\u2195';  // updown by default
             if (heading === this.state.sortBy) {
@@ -168,7 +201,7 @@ const Datatable = createReactClass({
             }, this)}</tr>
           </thead>
           <tbody>{/*onDoubleClick={this.editable}*/}
-          {this.showSearch()}
+          {this.showFilter()}
           {this.state.data.map(function(row, i) {
             /* editable stuff we don't care about right now
             if ((this.state.editMarker !== null) && (this.state.editMarker.row === i)) {
@@ -184,6 +217,7 @@ const Datatable = createReactClass({
       </div>
     );
   }
-});
+
+}
 
 export default Datatable;
