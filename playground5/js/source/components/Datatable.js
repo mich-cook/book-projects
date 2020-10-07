@@ -288,6 +288,21 @@ class Datatable extends React.Component {
     );
   }
 
+  renderTableData() {
+    return (
+      this.state.data.map(function(row, i) {
+        /* editable stuff we don't care about right now
+        if ((this.state.editMarker !== null) && (this.state.editMarker.row === i)) {
+          let editField = React.createElement("form", { "onSubmit": this.updateTable },
+            React.createElement("input", { "type": "text", "defaultValue": row[this.state.editMarker.key], "placeholder": row[this.state.editMarker.key] })
+          );
+          row[this.state.editMarker.key] = editField;
+        }  */
+        return <tr key={i}><td>{row.mission}</td><td>{row.shuttle}</td><td>{row.date}</td></tr>;
+      }, this)
+    );
+  }
+
   render() {
     return (
       <div className="Datatable">
@@ -296,16 +311,7 @@ class Datatable extends React.Component {
           {this.renderTableHeader()}
           <tbody>{/*onDoubleClick={this.editable}*/}
           {this.showFilter()}
-          {this.state.data.map(function(row, i) {
-            /* editable stuff we don't care about right now
-            if ((this.state.editMarker !== null) && (this.state.editMarker.row === i)) {
-              let editField = React.createElement("form", { "onSubmit": this.updateTable },
-                React.createElement("input", { "type": "text", "defaultValue": row[this.state.editMarker.key], "placeholder": row[this.state.editMarker.key] })
-              );
-              row[this.state.editMarker.key] = editField;
-            }  */
-            return <tr key={i}><td>{row.mission}</td><td>{row.shuttle}</td><td>{row.date}</td></tr>;
-          }, this)}
+          {this.renderTableData()}
           </tbody>
         </table>
         {this.renderDialog()}
