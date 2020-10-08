@@ -82,8 +82,7 @@ class Datatable extends React.Component {
    *
    **/
 
-  sort(e) {
-    const column = e.target.dataset.column;
+  sort(column, e) {
     const desc = (this.state.sortBy === column) ? !this.state.descending : false;
     let missions = Array.from(this.state.data);
     missions.sort(function(a,b) {
@@ -275,7 +274,7 @@ class Datatable extends React.Component {
 
   renderTableHeader() {
     return (
-      <thead onClick={this.sort.bind(this)}>
+      <thead>
         <tr>{this.props.schema.map(function(item, i) {
           if (item.show === false) return null;
 
@@ -285,7 +284,7 @@ class Datatable extends React.Component {
             if (this.state.descending === false) { sortDir = '\u2193'; }
             else { sortDir = '\u2191'; }
           }
-          return <th key={i} data-column={item.id}>{item.label} {sortDir}</th>;
+          return <th key={i} onClick={this.sort.bind(this, item.id)}>{item.label} {sortDir}</th>;
         }, this)}</tr>
       </thead>
     );
