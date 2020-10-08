@@ -276,13 +276,16 @@ class Datatable extends React.Component {
   renderTableHeader() {
     return (
       <thead onClick={this.sort.bind(this)}>
-        <tr>{this.props.headers.map(function(heading, i) {
-        let sortDir = '\u2195';  // updown by default
-        if (heading === this.state.sortBy) {
-          if (this.state.descending === false) { sortDir = "\u2193"; }
-          else { sortDir = "\u2191"; }
-        }
-        return <th key={i} data-column={heading}>{heading}{sortDir}</th>;
+        <tr>{this.props.schema.map(function(item, i) {
+          if (item.show === false) return null;
+
+          let sortDir = '\u2195';  // uprown by default
+
+          if (item.id === this.state.sortBy) {
+            if (this.state.descending === false) { sortDir = '\u2193'; }
+            else { sortDir = '\u2191'; }
+          }
+          return <th key={i} data-column={item.id}>{item.label} {sortDir}</th>;
         }, this)}</tr>
       </thead>
     );
