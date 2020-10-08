@@ -12,13 +12,6 @@ export default [
     "align": "left"
   },
   {
-    "id": "date",
-    "label": "Date",
-    "type": "year",
-    "show": true,
-    "sample": 2013
-  },
-  {
     "id": "shuttle",
     "label": "Shuttle",
     "type": "suggest",
@@ -26,6 +19,13 @@ export default [
     "show": true,
     "sample": "Atlantis",
     "align": "left"
+  },
+  {
+    "id": "date",
+    "label": "Date",
+    "type": "year",
+    "show": true,
+    "sample": 2013
   },
 /*
   {
@@ -39,6 +39,7 @@ export default [
   {
     "id": "notes",
     "label": "Notes",
+    "show": false,
     "type": "text",
     "sample": "Successful mission. All objectives completed."
   }
