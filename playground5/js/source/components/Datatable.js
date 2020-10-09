@@ -1,6 +1,10 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
 
+import Actions from './Actions.js';
+import Dialog from './Dialog.js';
+import Form from './Form.js';
+
 class Datatable extends React.Component {
 
   constructor(props) {
@@ -44,6 +48,10 @@ class Datatable extends React.Component {
 
   _fireDataChange(data) {
     this.props.onDataChange(data);
+  }
+
+  actionClick(rowindex, action) {
+    this.setState({ "dialog": { "type": action, "index": rowindex }});
   }
 
   /**
@@ -285,7 +293,7 @@ class Datatable extends React.Component {
             else { sortDir = '\u2191'; }
           }
           return <th key={i} onClick={this.sort.bind(this, item.id)}>{item.label} {sortDir}</th>;
-        }, this)}</tr>
+        }, this)}<th>Details</th></tr>
       </thead>
     );
   }
@@ -298,8 +306,11 @@ class Datatable extends React.Component {
 
     return (
       this.state.data.map(function(row, i) {
-        return <tr key={i}>{order.map(key => <td>{row[key]}</td>)}</tr>;
-      })
+        return <tr key={i}>
+          {order.map(key => <td>{row[key]}</td>)}
+          <td><Actions onAction={this.actionClick.bind(this, i)} /></td>
+        </tr>;
+      }, this)
     );
   }
 
