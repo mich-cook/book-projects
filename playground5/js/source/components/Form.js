@@ -29,7 +29,7 @@ class Form extends Component {
         }
         return (
           <div className="FormRow" key={field.id}>
-            <span className="FormLabel">{field.label}>: </span>
+            <span className="FormLabel">{field.label}: </span>
             {field.type === 'rating'
             ? <Rating readonly={true} defaultValue={parseInt(prefilled, 10)} />
             : <div>{prefilled}</div>}
