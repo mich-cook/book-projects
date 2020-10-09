@@ -291,7 +291,11 @@ class Datatable extends React.Component {
   }
 
   renderTableData() {
-    const order = this.props.schema.map(item => (item.show === false) ? null : item.id);
+    const order = this.props.schema.reduce(function(result, item) {
+      if (item.show === false)  return result;
+      return result.concat(item.id);
+    }, []);
+
     return (
       this.state.data.map(function(row, i) {
         return <tr key={i}>{order.map(key => <td>{row[key]}</td>)}</tr>;
