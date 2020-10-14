@@ -183,7 +183,7 @@ class Datatable extends React.Component {
    * Dialog Stuff
    *
    **/
-  deleteConfirmationClick(action) {
+  deleteConfirmation(action) {
     if (action === 'dismiss') {
       this.closeDialog();
       return;
@@ -230,7 +230,7 @@ class Datatable extends React.Component {
   }
 
   renderDeleteDialog() {
-    const first = this.sate.data[this.state.dialog.index];
+    const first = this.state.data[this.state.dialog.index];
     const name = first[Object.keys(first)[0]];
     return (
       <Dialog modal={true} header="Confirm deletion"
