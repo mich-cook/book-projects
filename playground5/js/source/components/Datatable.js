@@ -236,7 +236,7 @@ class Datatable extends React.Component {
       <Dialog modal={true} header="Confirm deletion"
               confirmLabel="Delete"
               onAction={this.deleteConfirmation.bind(this)}>
-        {`Please confirm delete for: ${name}`}
+        {`Please confirm delete for mission: ${name}`}
       </Dialog>
     );
   }
