@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Datatable from './components/Datatable.js';
+import Missions from './components/Missions.js';
 
 import schema from './schema.js';
 
@@ -38,6 +38,9 @@ if (!data) {
 }
 
 ReactDOM.render(
-  <Datatable headers={headers} schema={schema} initialData={data} />,
+  <main>
+    <h1>NASA Mission Navigator</h1>
+    <Missions headers={headers} schema={schema} initialData={data} />
+  </main>,
   document.getElementById("react-app")
 );
