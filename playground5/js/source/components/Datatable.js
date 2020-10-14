@@ -307,7 +307,7 @@ class Datatable extends React.Component {
     return (
       this.state.data.map(function(row, i) {
         return <tr key={i}>
-          {order.map(key => <td>{row[key]}</td>)}
+          {order.map((key,j) => <td key={j}>{row[key]}</td>)}
           <td><Actions onAction={this.actionClick.bind(this, i)} /></td>
         </tr>;
       }, this)
