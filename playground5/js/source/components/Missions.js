@@ -11,9 +11,18 @@ class Missions extends Component {
     };
   }
 
+  datatableDataChange(data) {
+    this.setState({ "data": data });
+    this.commitToStorage(data);
+  }
+
+  commitToStorage(data) {
+    localStorage.setItem('data', JSON.stringify(data));
+  }
+
   render() {
     return (
-      <Datatable schema={this.props.schema} initialData={this.state.data} />
+      <Datatable schema={this.props.schema} initialData={this.state.data} onDataChange={this.datatableDataChange.bind(this)} />
     );
   }
 }
