@@ -4,7 +4,7 @@
   "description": "",
   "main": "bundle.js",
   "scripts": {
-    "babelize": "node_modules/.bin/babel --presets react,env js/source -d js/build",
+    "babelize": "node_modules/.bin/babel js/source -d js/build",
     "browserify-app": "node_modules/.bin/browserify js/build/app.js -o bundle.js",
     "browserify-demo": "node_modules/.bin/browserify js/build/demo.js -o demo-bundle.js",
     "browserify": "npm run browserify-app && npm run browserify-demo",
@@ -42,5 +42,11 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "watch": "^1.0.2"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "env"
+    ]
   }
 }
