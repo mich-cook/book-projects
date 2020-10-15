@@ -35,6 +35,12 @@ class Datatable extends React.Component {
 //    this.actionLog.push(JSON.parse(JSON.stringify(item)));
   }
 
+  // TODO: this needs to be replaced.
+  // look here: https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-controlled-component
+  UNSAFE_componentWillReceiveProps(props) {
+    this.setState({ "data": props.initialData });
+  }
+
 /*
   "propTypes": {
     "headers": PropTypes.arrayOf(PropTypes.string),
