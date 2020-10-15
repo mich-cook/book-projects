@@ -3,9 +3,17 @@ import React, { Component } from 'react';
 import Datatable from './Datatable.js';
 
 class Missions extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      "data": props.initialData
+    };
+  }
+
   render() {
     return (
-      <Datatable schema={this.props.schema} initialData={this.props.initialData} />
+      <Datatable schema={this.props.schema} initialData={this.state.data} />
     );
   }
 }
