@@ -279,7 +279,7 @@ class Datatable extends React.Component {
   renderToolbar() {
     return (
       <div>
-        <button onClick={this.toggleFilter.bind(this)} className="toolbar">Search</button>
+        {/*<button onClick={this.toggleFilter.bind(this)} className="toolbar">Search</button>*/}
         <a onClick={this.download.bind(this, 'json')} className="toolbar">Export JSON</a>
         <a onClick={this.download.bind(this, 'csv')} className="toolbar">Export CSV</a>
       </div>
