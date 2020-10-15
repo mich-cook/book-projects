@@ -10,4 +10,9 @@ class Missions extends Component {
   }
 }
 
+/*Missions.propTypes = {
+  "schema": PropTypes.arrayOf(PropTypes.object),
+  "initialData": PropTypes.arrayOf(PropTypes.object)
+};*/
+
 export default Missions;
