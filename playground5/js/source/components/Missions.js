@@ -22,7 +22,7 @@ class Missions extends Component {
 
   render() {
     return (
-      <Datatable schema={this.props.schema} initialData={this.state.data} onDataChange={this.datatableDataChange.bind(this)} />
+      <Datatable schema={this.props.schema} initialData={this.state.data} onDataChange={this.datatableDataChange.bind(this)} headers={this.props.headers} />
     );
   }
 }
