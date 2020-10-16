@@ -4,6 +4,7 @@
   "description": "",
   "main": "bundle.js",
   "scripts": {
+    "eslint": "node_modules/.bin/eslint js/source/",
     "babelize": "node_modules/.bin/babel js/source -d js/build",
     "browserify-app": "node_modules/.bin/browserify js/build/app.js -o bundle.js",
     "browserify-demo": "node_modules/.bin/browserify js/build/demo.js -o demo-bundle.js",
@@ -35,10 +36,13 @@
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.1",
+    "@babel/eslint-parser": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "browserify": "^16.5.2",
     "create-react-class": "^15.6.3",
+    "eslint": "^7.11.0",
+    "eslint-plugin-react": "^7.21.4",
     "minify": "^6.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -49,5 +53,23 @@
       "@babel/preset-react",
       "@babel/preset-env"
     ]
+  },
+  "eslintConfig": {
+    "parser": "@babel/eslint-parser",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "react/prop-types": 0
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
   }
 }
