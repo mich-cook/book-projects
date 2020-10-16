@@ -1,7 +1,6 @@
 import React from 'react';
 
 function Button(props) {
-  let element = 'button';
   if (props.href !== undefined) {
     return <a {...props} className="Button" />;
   }
