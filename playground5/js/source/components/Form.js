@@ -6,9 +6,9 @@ import Rating from './Rating.js';
 class Form extends Component {
   getData() {
     let data = {};
-    this.props.fields.forEach(
+    this.props.fields.forEach(field => {
       data[field.id] = this.refs[field.id].getValue()
-    );
+    });
     return data;
   }
 
