@@ -28,11 +28,13 @@ class Datatable extends React.Component {
     }.bind(this);
   }
 
+/*
   // TODO: need bypass for replay to avoid constantly growing state log
   componentDidUpdate(props, state) {
 //    const item = (this.actionLog.length === 0) ? this.state : state;
 //    this.actionLog.push(JSON.parse(JSON.stringify(item)));
   }
+*/
 
   // TODO: this needs to be replaced.
   // look here: https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-controlled-component
