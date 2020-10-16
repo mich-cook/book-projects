@@ -1,5 +1,4 @@
 import React from 'react';
-import createReactClass from 'create-react-class';
 
 import Actions from './Actions.js';
 import Dialog from './Dialog.js';
