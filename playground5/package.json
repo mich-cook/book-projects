@@ -16,7 +16,7 @@
     "uglify": "npm run uglify-app && npm run uglify-demo",
     "cssmin-app": "node_modules/.bin/minify bundle.css > bundle.min.css",
     "cssmin": "npm run cssmin-app",
-    "enchilada": "npm run build && npm run uglify && npm run cssmin" ,
+    "enchilada": "npm run build && npm run uglify && npm run cssmin",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -33,9 +33,10 @@
   },
   "homepage": "https://github.com/mich-cook/running-stoyan#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
     "browserify": "^16.5.2",
     "create-react-class": "^15.6.3",
     "minify": "^6.0.0",
@@ -45,8 +46,8 @@
   },
   "babel": {
     "presets": [
-      "react",
-      "env"
+      "@babel/preset-react",
+      "@babel/preset-env"
     ]
   }
 }
