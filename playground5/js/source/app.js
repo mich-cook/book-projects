@@ -29,7 +29,7 @@ const sampleData = [
 
 let data = JSON.parse(localStorage.getItem('data') || '{}');
 
-if (!data) {
+if (Object.keys(data).length === 0 && data.constructor === Object) {
   data = sampleData;
 /*
   // THEIR SUGGESTION FOR DEFAULT DATA
