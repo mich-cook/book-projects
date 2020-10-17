@@ -46,6 +46,7 @@
     "eslint": "^7.11.0",
     "eslint-plugin-react": "^7.21.4",
     "flow-bin": "^0.136.0",
+    "flow-typed": "^3.2.1",
     "minify": "^6.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
