@@ -97,7 +97,7 @@ class Datatable extends React.Component {
    *
    **/
 
-  sort(column, e) {
+  sort(column) { // , e) {
     const desc = (this.state.sortBy === column) ? !this.state.descending : false;
     let missions = Array.from(this.state.data);
     missions.sort(function(a,b) {
