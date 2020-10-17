@@ -1,7 +1,21 @@
+// @flow
+
 import React, { Component } from 'react';
 
-class Rating extends Component {
-  constructor(props) {
+type Props = {
+  "defaultValue": number,
+  "max": number,
+  "readonly": ?Boolean,
+  "id": ?string
+};
+
+type State = {
+  "rating": number,
+  "tmpRating": number
+};
+
+class Rating extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       rating: props.defaultValue,
@@ -9,15 +23,17 @@ class Rating extends Component {
     };
   }
 
-  getValue() {
+  static defaultProps: Object;
+
+  getValue(): number {
     return this.state.rating;
   }
 
-  setTemp(rating) {
+  setTemp(rating: number) {
     this.setState({ tmpRating: rating });
   }
 
-  setRating(rating) {
+  setRating(rating: number) {
     this.setState({ tmpRating: rating, rating });
   }
 
@@ -31,7 +47,7 @@ class Rating extends Component {
   }
 */
 
-  render() {
+  render():Object {
     const stars = [];
 
     // TODO: bug where the component doesn't reset when mouse leaves the component
