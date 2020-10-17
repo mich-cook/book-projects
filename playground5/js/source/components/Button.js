@@ -1,6 +1,12 @@
+// @flow
 import React from 'react';
 
-function Button(props) {
+type Props = {
+  "href": ?string
+/*  , "className": ?string */
+};
+
+const Button = (props: Props): Object => {
   if (props.href !== undefined) {
     return <a {...props} className="Button" />;
   }
