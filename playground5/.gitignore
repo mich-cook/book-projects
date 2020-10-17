@@ -6,3 +6,4 @@ demo-bundle.js
 demo-bundle.min.js
 node_modules
 js/build/
+flow-typed/
