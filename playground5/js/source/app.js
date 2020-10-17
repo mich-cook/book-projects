@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -25,7 +27,7 @@ const sampleData = [
 }
 ];
 
-let data = JSON.parse(localStorage.getItem('data'));
+let data = JSON.parse(localStorage.getItem('data') || '{}');
 
 if (!data) {
   data = sampleData;
@@ -37,10 +39,12 @@ if (!data) {
 */
 }
 
+const root = document.getElementById("react-app") || document.getElementsByTagName("body")[0];
+
 ReactDOM.render(
   <main>
     <h1>NASA Mission Navigator</h1>
     <Missions headers={headers} schema={schema} initialData={data} />
   </main>,
-  document.getElementById("react-app")
+  root
 );
