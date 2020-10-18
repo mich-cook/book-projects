@@ -1,16 +1,31 @@
+// @flow
+
 import React, { Component } from 'react';
 
 import Rating from './Rating';
 import Suggest from './Suggest';
 
-class FormInput extends Component {
-  getValue() {
+type FormInputFieldType = 'year' | 'suggest' | 'rating' | 'text';
+
+// <Form> can use this for Props type since it is exported
+// import type FormInputField from './FormInput.js';
+export type FormInputFieldValue = string | number;
+
+type Props = {
+  "id": string,
+  "defaultValue"?: FormInputFieldValue,
+  "type"?: FormInputFieldType,
+  "options"?: Array<string>
+};
+
+class FormInput extends Component<Props> {
+  getValue():string {
     return 'value' in this.refs.input ?
       this.refs.input.value :
       this.refs.input.getValue();
   }
 
-  render() {
+  render():Object {
     const baseline = {
       "id": this.props.id,
       "ref": "input",
