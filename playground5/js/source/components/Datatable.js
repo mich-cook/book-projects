@@ -1,12 +1,40 @@
+// @flow
+
 import React from 'react';
 
 import Actions from './Actions.js';
 import Dialog from './Dialog.js';
 import Form from './Form.js';
 
-class Datatable extends React.Component {
+type Props = {
+  "initialData": Object,
+  "headers": Array<string>,
+  "schema": Array<Object>,
+  "onDataChange": Function
+};
 
-  constructor(props) {
+type State = {
+  "data": Object,
+  "sortBy": null | string,
+  "descending": boolean,
+  "editMarker": null,
+  "searchDisplayed": boolean,
+  "dialog": Object
+};
+
+type ActionLog = Array<Object>;
+
+type DownloadEvent = {
+  "target": {
+    "href": string,
+    "download": string
+  }
+};
+
+class Datatable extends React.Component<Props, State> {
+  actionLog: ActionLog
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       "data": this.props.initialData,
@@ -21,11 +49,11 @@ class Datatable extends React.Component {
   }
 
   componentDidMount() {
-    document.onkeydown = function(e) {
+    document.addEventListener("keydown", function(e:KeyboardEvent) {
       if (e.altKey && e.shiftKey && e.keyCode === 82) {
         this.replay();
       }
-    }.bind(this);
+    }.bind(this));
   }
 
 /*
@@ -38,7 +66,7 @@ class Datatable extends React.Component {
 
   // TODO: this needs to be replaced.
   // look here: https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-controlled-component
-  UNSAFE_componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props:Props) {
     this.setState({ "data": props.initialData });
   }
 
@@ -53,11 +81,11 @@ class Datatable extends React.Component {
   },
 */
 
-  _fireDataChange(data) {
+  _fireDataChange(data:Object) {
     this.props.onDataChange(data);
   }
 
-  actionClick(rowindex, action) {
+  actionClick(rowindex:number, action:string) {
     this.setState({ "dialog": { "type": action, "index": rowindex }});
   }
 
@@ -70,7 +98,7 @@ class Datatable extends React.Component {
   // TODO: look at this for undo/redo
   // TODO: hook this into componentDidUpdate, but bypass
   //   adding to the state on replay (which uses setState())
-  logThenSetState(state) {
+  logThenSetState(state:Object) {
     const item = (this.actionLog.length === 0) ? this.state : state;
     this.actionLog.push(JSON.parse(JSON.stringify(item)));
     this.setState(state);
@@ -97,7 +125,7 @@ class Datatable extends React.Component {
    *
    **/
 
-  sort(column) { // , e) {
+  sort(column:string) { // , e) {
     const desc = (this.state.sortBy === column) ? !this.state.descending : false;
     let missions = Array.from(this.state.data);
     missions.sort(function(a,b) {
@@ -147,7 +175,7 @@ class Datatable extends React.Component {
    **/
 /*
   // TODO: handle multicolumn filtering
-  filterData(e) {
+  filterData(e:Event) {
     const needle = e.target.value.toLowerCase();
     if (needle.length === 0) {
       this.setState({ "data": this.originalData });
@@ -163,7 +191,7 @@ class Datatable extends React.Component {
     this.setState({ "data": results });
   }
 
-  showFilter() {
+  showFilter():Object {
     if (this.state.searchDisplayed === false) {
       return null;
     }
@@ -190,7 +218,7 @@ class Datatable extends React.Component {
    * Dialog Stuff
    *
    **/
-  deleteConfirmation(action) {
+  deleteConfirmation(action:string) {
     if (action === 'dismiss') {
       this.closeDialog();
       return;
@@ -206,7 +234,7 @@ class Datatable extends React.Component {
     this.setState({ "dialog": null });
   }
 
-  saveDataDialog(action) {
+  saveDataDialog(action:string) {
     if (action === 'dismiss') {
       this.closeDialog();
       return;
@@ -218,7 +246,7 @@ class Datatable extends React.Component {
     this._fireDataChange(data);
   }
 
-  renderDialog() {
+  renderDialog():any {
     if (this.state.dialog === null) {
       return;
     }
@@ -236,7 +264,7 @@ class Datatable extends React.Component {
 
   }
 
-  renderDeleteDialog() {
+  renderDeleteDialog():Object {
     const first = this.state.data[this.state.dialog.index];
     const name = first[Object.keys(first)[0]];
     return (
@@ -248,7 +276,7 @@ class Datatable extends React.Component {
     );
   }
 
-  renderFormDialog(readonly) {
+  renderFormDialog(readonly?:boolean):Object {
     return (
       <Dialog modal={true} hasCancel={!readonly} confirmLabel={readonly ? 'ok' : 'Save'}
               header={readonly ? 'Item info' : 'Edit item'}
@@ -265,7 +293,7 @@ class Datatable extends React.Component {
    *   (that we're not using)
    *
    **/
-  download(format, e) {
+  download(format:string, e:DownloadEvent) {
     let data = '';
     if (format === 'json') data = JSON.stringify(this.state.data);
     if (format === 'csv') {
@@ -277,7 +305,7 @@ class Datatable extends React.Component {
     e.target.download = `data.${format}`;
   }
 
-  renderToolbar() {
+  renderToolbar():Object {
     return (
       <div>
         {/*<button onClick={this.toggleFilter.bind(this)} className="toolbar">Search</button>*/}
@@ -287,7 +315,7 @@ class Datatable extends React.Component {
     );
   }
 
-  renderTableHeader() {
+  renderTableHeader():Object {
     return (
       <thead>
         <tr>{this.props.schema.map(function(item, i) {
@@ -305,7 +333,7 @@ class Datatable extends React.Component {
     );
   }
 
-  renderTableData() {
+  renderTableData():Object {
     const order = this.props.schema.reduce(function(result, item) {
       if (item.show === false)  return result;
       return result.concat(item.id);
@@ -321,7 +349,7 @@ class Datatable extends React.Component {
     );
   }
 
-  render() {
+  render():Object {
     return (
       <div className="Datatable">
         {this.renderToolbar()}
