@@ -16,7 +16,7 @@ class Datatable extends React.Component {
       "searchDisplayed": false,
       "dialog": null, // [type, index]
     };
-    this.originalData = null;
+//    this.originalData = null;
     this.actionLog = [];
   }
 
@@ -145,7 +145,7 @@ class Datatable extends React.Component {
    * Filter Functionality
    *
    **/
-
+/*
   // TODO: handle multicolumn filtering
   filterData(e) {
     const needle = e.target.value.toLowerCase();
@@ -184,7 +184,7 @@ class Datatable extends React.Component {
       this.setState({ "searchDisplayed": true });
     }
   }
-
+*/
   /**
    *
    * Dialog Stuff
@@ -328,7 +328,7 @@ class Datatable extends React.Component {
         <table>
           {this.renderTableHeader()}
           <tbody>
-            {this.showFilter()}
+            {/*this.showFilter()*/}
             {this.renderTableData()}
           </tbody>
         </table>
