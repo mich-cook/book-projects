@@ -17,7 +17,7 @@ type State = {
   "data": Object,
   "sortBy": null | string,
   "descending": boolean,
-  "editMarker": null,
+  "editMarker": null | EditMarker,
   "searchDisplayed": boolean,
   "dialog": Object
 };
@@ -29,6 +29,12 @@ type DownloadEvent = {
     "href": string,
     "download": string
   }
+};
+
+type EditMarker = {
+  "row": number,
+  "column": number,
+  "key": string
 };
 
 class Datatable extends React.Component<Props, State> {
