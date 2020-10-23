@@ -1,0 +1,7 @@
+.Rating > span {
+  cursor: pointer; 
+}
+
+.Rating .RatingOn {
+  color: yellow;
+}

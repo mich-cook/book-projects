@@ -1,0 +1,8 @@
+.Datatable table {
+  border: 1px solid black;
+  width: 50vw;
+}
+
+.Datatable th {
+  border-bottom: 1px solid black;
+}

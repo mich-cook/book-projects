@@ -1,0 +1,96 @@
+{
+  "name": "React Playground",
+  "version": "2.0.0",
+  "description": "",
+  "main": "bundle.js",
+  "scripts": {
+    "eslint": "node_modules/.bin/eslint js/source/",
+    "flow": "node_modules/.bin/flow",
+    "babelize": "node_modules/.bin/babel js/source -d js/build",
+    "browserify-app": "node_modules/.bin/browserify js/build/app.js -o bundle.js",
+    "browserify-demo": "node_modules/.bin/browserify js/build/demo.js -o demo-bundle.js",
+    "browserify": "npm run browserify-app && npm run browserify-demo",
+    "csscat": "cat css/*/* css/*.css | sed 's/..\\/..\\/images/images/g' > bundle.css",
+    "build": "npm run babelize && npm run browserify && npm run csscat",
+    "watch": "node_modules/.bin/watch \"npm run build\" js/source css",
+    "uglify-app": "node_modules/.bin/terser bundle.js --mangle --compress -o bundle.min.js",
+    "uglify-demo": "node_modules/.bin/terser demo-bundle.js --mangle --compress -o demo-bundle.min.js",
+    "uglify": "npm run uglify-app && npm run uglify-demo",
+    "cssmin-app": "node_modules/.bin/minify bundle.css > bundle.min.css",
+    "cssmin": "npm run cssmin-app",
+    "enchilada": "npm run build && npm run uglify && npm run cssmin",
+    "test": "node_modules/.bin/jest",
+    "coverage": "node_modules/.bin/jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mich-cook/running-stoyan.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "mich-cook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mich-cook/running-stoyan/issues"
+  },
+  "homepage": "https://github.com/mich-cook/running-stoyan#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.1",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-flow": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
+    "babel-jest": "^26.6.0",
+    "browserify": "^16.5.2",
+    "create-react-class": "^15.6.3",
+    "eslint": "^7.11.0",
+    "eslint-plugin-react": "^7.21.4",
+    "flow-bin": "^0.136.0",
+    "flow-typed": "^3.2.1",
+    "jest-cli": "^26.6.0",
+    "minify": "^6.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-test-renderer": "^17.0.0",
+    "watch": "^1.0.2"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env",
+      "@babel/preset-flow"
+    ]
+  },
+  "eslintConfig": {
+    "parser": "@babel/eslint-parser",
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "env": {
+      "browser": true,
+      "jest": true
+    },
+    "rules": {
+      "react/prop-types": 0,
+      "react/no-string-refs": 0
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
+  "jest": {
+    "transform": {
+      ".*": "babel-jest"
+    },
+    "unmockedModulePathPatterns": [
+      "node_modules/react",
+      "node_modules/react-dom",
+      "node_modules/fbjs"
+    ]
+  }
+}
