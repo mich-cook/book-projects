@@ -19,7 +19,8 @@
     "cssmin-app": "node_modules/.bin/minify bundle.css > bundle.min.css",
     "cssmin": "npm run cssmin-app",
     "enchilada": "npm run build && npm run uglify && npm run cssmin",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/jest",
+    "coverage": "node_modules/.bin/jest --coverage"
   },
   "repository": {
     "type": "git",
