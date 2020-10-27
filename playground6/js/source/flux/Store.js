@@ -1,5 +1,8 @@
 // @flow
 
+import { EventEmitter } from 'fbemitter';
+const emitter = new EventEmitter();
+
 let schema;
 let data = [
 {
@@ -31,6 +34,7 @@ const Store = {
     if (commit === true) {
       localStorage.setItem('data', JSON.stringify(data));
     }
+    emitter.emit('change');
   },
 
   getCount(): number {
@@ -52,6 +56,10 @@ const Store = {
     if (storage !== null) {
       data = JSON.parse(storage);
     }
+  },
+
+  addListener(eventType: string, fx: Function) {
+    emitter.addListener(eventType, fx);
   }
 
 };
