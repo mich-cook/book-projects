@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import FluxStore from '../flux/Store.js';
+
 import Actions from './Actions.js';
 import Dialog from './Dialog.js';
 import Form from './Form.js';
@@ -39,11 +41,12 @@ type EditMarker = {
 
 class Datatable extends React.Component<Props, State> {
   actionLog: ActionLog
+  schema: Array<Object>;
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      "data": this.props.initialData,
+      "data": FluxStore.getData(),
       "sortBy": null,   // schema.id
       "descending": false,
       "editMarker": null,  // [row index, schema.id]
@@ -51,7 +54,12 @@ class Datatable extends React.Component<Props, State> {
       "dialog": null, // [type, index]
     };
 //    this.originalData = null;
+    this.schema = FluxStore.getSchema();
     this.actionLog = [];
+
+    FluxStore.addListener('change', () => {
+      this.setState({ "data": FluxStore.getData() });
+    });
   }
 
   componentDidMount() {
@@ -72,6 +80,7 @@ class Datatable extends React.Component<Props, State> {
 
   // TODO: this needs to be replaced.
   // look here: https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-controlled-component
+/*
   UNSAFE_componentWillReceiveProps(props:Props) {
     this.setState({ "data": props.initialData });
   }
@@ -287,7 +296,7 @@ class Datatable extends React.Component<Props, State> {
       <Dialog modal={true} hasCancel={!readonly} confirmLabel={readonly ? 'ok' : 'Save'}
               header={readonly ? 'Item info' : 'Edit item'}
               onAction={this.saveDataDialog.bind(this)}>
-        <Form ref="form" fields={this.props.schema} readonly={readonly}
+        <Form ref="form" fields={this.schema} readonly={readonly}
               initialData={this.state.data[this.state.dialog.index]} />
       </Dialog>
     );
@@ -324,7 +333,7 @@ class Datatable extends React.Component<Props, State> {
   renderTableHeader():Object {
     return (
       <thead>
-        <tr>{this.props.schema.map(function(item, i) {
+        <tr>{this.schema.map(function(item, i) {
           if (item.show === false) return null;
 
           let sortDir = '\u2195';  // uprown by default
@@ -340,7 +349,7 @@ class Datatable extends React.Component<Props, State> {
   }
 
   renderTableData():Object {
-    const order = this.props.schema.reduce(function(result, item) {
+    const order = this.schema.reduce(function(result, item) {
       if (item.show === false)  return result;
       return result.concat(item.id);
     }, []);

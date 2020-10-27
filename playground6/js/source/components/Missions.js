@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import FluxStore from '../flux/Store.js';
+
 import Datatable from './Datatable.js';
 
 class Missions extends Component {
@@ -7,9 +9,19 @@ class Missions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "data": props.initialData
+//      "data": props.initialData,
+      "count": FluxStore.getCount()
     };
+
+    FluxStore.addListener('change', () => {
+      this.setState({ "count": FluxStore.getCount() });
+    });
+
     this.preFilterData = null;
+  }
+
+  shouldComponentUpdate(props: Object, state: State): boolean {
+    return state.count !== this.state.count;
   }
 
   datatableDataChange(data) {
@@ -22,11 +34,11 @@ class Missions extends Component {
   }
 
   filterStart() {
-    this.preFilterData = this.state.data;
+    this.preFilterData = FluxStore.getData(); // this.state.data;
   }
 
   filterEnd() {
-    this.setState({ "data": this.preFilterData });
+    this.setState({ "data": FluxStore.getData() /*this.preFilterData */ });
   }
 
   filterData(e) {
@@ -36,7 +48,7 @@ class Missions extends Component {
       return;
     }
 
-    const key = this.props.headers;  // improve to use this.props.schema.map(item => item.id); to match this.props.headers
+    const key = FluxStore.getHeaders(); // this.props.headers;  // improve to use this.props.schema.map(item => item.id); to match this.props.headers
 
     const results = this.preFilterData.filter(mission => {
       for (let f = 0; f < key.length; f += 1) {
@@ -50,11 +62,12 @@ class Missions extends Component {
     this.setState({ "data": results });
   }
 
+//        <Datatable initialData={this.state.data} onDataChange={this.datatableDataChange.bind(this)} />
   render() {
     return (
       <div>
         <input placeholder="Filter Missions" onChange={this.filterData.bind(this)} onFocus={this.filterStart.bind(this)} onBlur={this.filterEnd.bind(this)} />
-        <Datatable schema={this.props.schema} initialData={this.state.data} onDataChange={this.datatableDataChange.bind(this)} headers={this.props.headers} />
+        <Datatable />
       </div>
     );
   }
