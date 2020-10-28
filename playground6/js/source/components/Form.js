@@ -1,10 +1,34 @@
+// @flow
+
 import React, { Component } from 'react';
+
+import FluxStore from '../flux/Store.js';
 
 import FormInput from './FormInput.js';
 import Rating from './Rating.js';
 
-class Form extends Component {
-  getData() {
+type Props = {
+  readonly?: boolean,
+  fields: Array<Object>,
+  initialData: Array<Object>,
+  missionId: ?string
+};
+
+type State = void;
+
+class Form extends Component<Props, State> {
+  fields: Array<Object>
+  initialData: Array<Object>
+
+  constructor(props: Props) {
+    super(props);
+    this.fields = FluxStore.getSchema();
+    if (typeof this.props.missionId === "string") {
+      this.initialData = FluxStore.getMission(this.props.missionId);
+    }
+  }
+
+  getData():Object {
     let data = {};
     this.props.fields.forEach(field => {
       data[field.id] = this.refs[field.id].getValue()
@@ -12,7 +36,7 @@ class Form extends Component {
     return data;
   }
 
-  render() {
+  render():Object {
     return (
       <form className="Form">{this.props.fields.map(field => {
         const prefilled = this.props.initialData && this.props.initialData[field.id];
