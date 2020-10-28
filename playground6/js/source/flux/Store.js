@@ -49,6 +49,10 @@ const Store = {
     return headers;
   },
 
+  getMission(id:string): Object {
+    return undefined;
+  },
+
   init(initSchema: Array<Object>) {
     schema = initSchema;
 
