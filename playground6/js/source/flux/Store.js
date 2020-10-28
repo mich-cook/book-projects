@@ -29,7 +29,7 @@ const Store = {
     return data;
   },
 
-  setData(newDdata: Array<Object>, commit: boolean = true) {
+  setData(newData: Array<Object>, commit: boolean = true) {
     data = newData;
     if (commit === true) {
       localStorage.setItem('data', JSON.stringify(data));
