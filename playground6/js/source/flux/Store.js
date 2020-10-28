@@ -57,7 +57,7 @@ const Store = {
     schema = initSchema;
 
     const storage = 'localStorage' in window ? localStorage.getItem('data') : null;
-    if (storage !== null) {
+    if (typeof storage === 'string') {
       data = JSON.parse(storage);
     }
   },
