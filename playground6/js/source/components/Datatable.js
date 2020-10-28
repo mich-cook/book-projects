@@ -297,7 +297,7 @@ class Datatable extends React.Component<Props, State> {
               header={readonly ? 'Item info' : 'Edit item'}
               onAction={this.saveDataDialog.bind(this)}>
         <Form ref="form" fields={this.schema} readonly={readonly}
-              initialData={this.state.data[this.state.dialog.index]} />
+              initialData={this.state.data[this.state.dialog.index]} missionId={this.state.dialog.index} />
       </Dialog>
     );
   }
