@@ -3,6 +3,7 @@
 import React from 'react';
 
 import FluxStore from '../flux/Store.js';
+import FluxActions from '../flux/Actions.js';
 
 import Actions from './Actions.js';
 import Dialog from './Dialog.js';
@@ -142,16 +143,8 @@ class Datatable extends React.Component<Props, State> {
 
   sort(column:string) { // , e) {
     const desc = (this.state.sortBy === column) ? !this.state.descending : false;
-    let missions = Array.from(this.state.data);
-    missions.sort(function(a,b) {
-      if (desc === false) {
-        return (a[column] > b[column]) ? 1 : -1;
-      } else {
-        return (a[column] < b[column]) ? 1 : -1;
-      }
-    });
-    this.setState({ "data": missions, "descending": desc, "sortBy": column });
-    this._fireDataChange(missions);
+    FluxActions.sort(column, desc);
+    this.setState({ "sortBy": column, "descending": desc });
   }
 
   /**

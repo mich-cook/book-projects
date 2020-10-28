@@ -23,6 +23,22 @@ const Actions = {
     let data = FluxStore.getData();
     data.splice(offset, 1);
     FluxStore.setData(data);
+  },
+
+  _sortCallback(a: (string|number), b: (string|number), descending: boolean): number {
+    let result: number = 0;
+    if ((typeof a === 'number') && (typeof b === 'number')) {
+      result = a - b;
+    } else {
+      result = String(a).localeCompare(String(b));
+    }
+    return descending ? -1 * result : result;
+  },
+
+  sort(key: string, descending: boolean) {
+    let data = FluxStore.getData();
+    data.sort((a, b) => this._sortCallback(a[key], b[key], descending));
+    FluxStore.setData(data);
   }
 
 };
