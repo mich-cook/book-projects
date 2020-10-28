@@ -227,15 +227,15 @@ class Datatable extends React.Component<Props, State> {
    *
    **/
   deleteConfirmation(action:string) {
+    this.closeDialog();
     if (action === 'dismiss') {
-      this.closeDialog();
       return;
     }
 
-    let data = Array.from(this.state.data);
-    data.splice(this.state.dialog.index, 1);
-    this.setState({ "dialog": null, "data": data });
-    this._fireDataChange(data);
+    const index = this.state.dialog && this.state.dialog.index;
+    if (typeof index === 'number') {
+      FluxActions.delete(index);
+    }
   }
 
   closeDialog() {
