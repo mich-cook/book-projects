@@ -50,6 +50,7 @@
     "fbemitter": "^2.1.1",
     "flow-bin": "^0.136.0",
     "flow-typed": "^3.2.1",
+    "immutable": "^4.0.0-rc.12",
     "jest-cli": "^26.6.0",
     "minify": "^6.0.0",
     "react": "^16.13.1",

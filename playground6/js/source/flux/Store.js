@@ -3,8 +3,10 @@
 import { EventEmitter } from 'fbemitter';
 const emitter = new EventEmitter();
 
+import { List } from 'immutable';
+
 let schema;
-let data = [
+let data = List([
 {
   "mission": "1",
   "shuttle": "Challenger",
@@ -20,7 +22,7 @@ let data = [
   "shuttle": "Atlantis",
   "date": "8"
 }
-];
+]);
 
 const headers = [ "mission", "shuttle", "date" ];
 
@@ -38,7 +40,7 @@ const Store = {
   },
 
   getCount(): number {
-    return data.length;
+    return data.count();
   },
 
   getSchema(): Array<Object> {
@@ -50,7 +52,7 @@ const Store = {
   },
 
   getMission(id:string): Object {
-    return undefined;
+    return undefined;  // return data.get(id);
   },
 
   init(initSchema: Array<Object>) {
@@ -58,7 +60,7 @@ const Store = {
 
     const storage = 'localStorage' in window ? localStorage.getItem('data') : null;
     if (typeof storage === 'string') {
-      data = JSON.parse(storage);
+      data = List(JSON.parse(storage));
     }
   },
 

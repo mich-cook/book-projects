@@ -1,4 +1,5 @@
 import FluxStore from './Store.js';
+import { List } from 'immutable';
 
 const Actions = {
 
@@ -7,22 +8,27 @@ const Actions = {
     let data = FluxStore.getData();
     data.unshift(mission);
     FluxStore.setData(data);
+    // immuatable:
+    // FluxStore.setData(FluxStore.getData().unshift(mission));
   },
   updateMission(missionId: string, mission: Object) {
     let data = FluxStore.getData();
     data[missionId] = mission;
     FluxStore.setData(data);
+    // immutable:
+    // FluxStore.setData(FluxStore.getData.set(missionId, mission));
   },
   updateField(missionId: string, key: string, value: string|number) {
     let data = FluxStore.getData();
     data[missionId][key] = value;
     FluxStore.setData(data);
+    // immutable
+    // let record = FluxStore.getData().get(missionId);
   },
   */
   delete(offset: number) {
-    let data = FluxStore.getData();
-    data.splice(offset, 1);
-    FluxStore.setData(data);
+    let data: List<Object> = FluxStore.getData();
+    FluxStore.setData(data.remove(offset));
   },
 
   _sortCallback(a: (string|number), b: (string|number), descending: boolean): number {
@@ -36,9 +42,8 @@ const Actions = {
   },
 
   sort(key: string, descending: boolean) {
-    let data = FluxStore.getData();
-    data.sort((a, b) => this._sortCallback(a[key], b[key], descending));
-    FluxStore.setData(data);
+    let data: List<Object> = FluxStore.getData();
+    FluxStore.setData(data.sort((a, b) => this._sortCallback(a[key], b[key], descending)));
   },
 
   _preFilterData: null,
